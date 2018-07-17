@@ -1,11 +1,10 @@
 {
   "expo": {
-    "name": "hohoho",
-    "description": "Like Yo but not",
-    "slug": "hohoho",
+    "name": "Runner",
+    "description": "Mobile app for finding running partners",
+    "slug": "Runner",
     "privacy": "public",
-    "infoPlist": {"NSLocationWhenInUseUsageDescription": "We are using your location"},
-    "sdkVersion": "18.0.0",
+    "sdkVersion": "22.0.0",
     "version": "1.0.0",
     "orientation": "portrait",
     "primaryColor": "#F5FCFF",

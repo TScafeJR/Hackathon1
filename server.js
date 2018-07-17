@@ -58,7 +58,7 @@ var validateReq = function(userData) {
     if (!userData.password) {
       return "Please enter a password.";
     }
-  };
+};
 
 app.get('/register', (req, res) => {
     res.json({success: true})
@@ -121,7 +121,7 @@ passport.serializeUser(function(user, done) {
   
       done(null, user);
     });
-  }));
+}));
 
 app.get('/login', (req, res) => {
     res.json({success: true})
