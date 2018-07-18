@@ -4,11 +4,19 @@ import { Constants } from 'expo';
 import { StackNavigator } from 'react-navigation';
 import MapView from 'react-native-maps';
 import { athletes } from './athletes.js';
+import ChooseActivity from './components/ChooseActivity.js'
+import LoginScreen from './components/LoginScreen.js'
+import RegisterScreen from './components/RegisterScreen.js'
+import SportsScreen from './components/SportsScreen.js'
+import WorkoutScreen from './components/WorkoutScreen.js'
 
 // const site = 'https://stark-bastion-71532.herokuapp.com/'
-const site = 'localhost:3000'
+const site = 'https://ee500919.ngrok.io'
+
+const { width } = Dimensions.get("window");
 
 const PAGE_WIDTH = Dimensions.get('window').width;
+
 const PAGES = [
   {
     title: 'Runnr+',
@@ -105,223 +113,6 @@ class HomeScreen extends React.Component {
   }
 }
 
-class RegisterScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Register',
-    header: null
-  };
-
-  constructor() {
-    super();
-    this.state = {
-      username:'',
-      password:''
-    }
-  }
-
-  register2press() {
-    fetch('https://stark-bastion-71532.herokuapp.com/register',
-    {
-      method: 'POST',
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({
-        username: this.state.username,
-        password: this.state.password,
-        passwordRepeat: this.state.passwordRepeat,
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-      })
-    })
-    .then((response) => {
-      return response.json()
-    })
-    .then((responseJson) => {
-      if (responseJson.success) {
-        this.props.navigation.navigate('Login');
-      }
-    })
-    .catch((err) => {
-      console.log('error', err)
-    });
-  }
-
-  render() {
-    return (
-      <View style={styles.container1}>
-        <Text style={styles.title}>Your Account For Everything Runnr+</Text>
-        <TextInput
-          style={{height: 40, borderStyle: 'solid', margin: 10}}
-          placeholderTextColor="white"
-          placeholder="Username"
-          onChangeText={(text) => this.setState({username: text})}
-        />
-        <TextInput
-          style={{height: 40, borderStyle: 'solid', margin: 10}}
-          placeholderTextColor="white"
-          placeholder="Password"
-          secureTextEntry={true}
-          onChangeText={(text) => this.setState({password: text})}
-        />
-        <TextInput
-          style={{height: 40, borderStyle: 'solid', margin: 10}}
-          placeholderTextColor="white"
-          placeholder="Repeat Password"
-          secureTextEntry={true}
-          onChangeText={(text) => this.setState({password: text})}
-        />
-        <TextInput
-          style={{height: 40, borderStyle: 'solid', margin: 10}}
-          placeholderTextColor="white"
-          placeholder="First Name"
-          onChangeText={(text) => this.setState({firstName: text})}
-        />
-        <TextInput
-          style={{height: 40, borderStyle: 'solid', margin: 10}}
-          placeholderTextColor="white"
-          placeholder="Last Name"
-          onChangeText={(text) => this.setState({lastName: text})}
-        />
-        <TouchableOpacity style={styles.buttonRegister1} onPress={ () => {this.register2press()} }>
-          <Text style={styles.buttonText}>REGISTER</Text>
-        </TouchableOpacity>
-      </View>
-    )
-  }
-}
-
-class LoginScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Login',
-    header: null
-  };
-
-  constructor() {
-    super();
-    this.state = {
-      username:'',
-      password:'',
-      err:''
-    }
-  }
-
-  componentDidMount() {
-    AsyncStorage.getItem('user')
-    .then(result => {
-      const parsedResult = JSON.parse(result);
-      const username = parsedResult.username;
-      const password = parsedResult.password;
-      if (username && password) {
-        return login(username, password)
-      }
-    })
-    .catch(err => { console.log('error', err); })
-  }
-
-  login2press() {
-    fetch('https://stark-bastion-71532.herokuapp.com/login',
-    {
-      method: 'POST',
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({
-        username: this.state.username,
-        password: this.state.password,
-      })
-    })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      if(responseJson.success) {
-        AsyncStorage.setItem('user', JSON.stringify({
-          username: this.state.username,
-          password: this.state.password
-        }))
-        .then(() => this.props.navigation.navigate('chooseActivity'))
-      } else {
-        this.setState({error: 'error'});
-      }
-    })
-    .catch((err) => {
-      console.log("Error!", err);
-    });
-  }
-
-  register() {
-    this.props.navigation.navigate('Register');
-  }
-
-  render() {
-    return (
-      <View style={styles.container1}>
-        <Text style={styles.title}>Your Account For Everything Runnr+</Text>
-        <TextInput
-          style={{height: 40, borderStyle: 'solid', margin: 10}}
-          placeholderTextColor="white"
-          placeholder="Username"
-          onChangeText={(text) => this.setState({username: text})}
-        />
-        <TextInput
-          style={{height: 40, borderStyle: 'solid', margin: 10}}
-          placeholderTextColor="white"
-          placeholder="Password"
-          secureTextEntry={true}
-          onChangeText={(text) => this.setState({password: text})}
-        />
-        <TouchableOpacity onPress={ () => {this.login2press()} } style={styles.buttonLogin1}>
-          <Text style={styles.buttonText}>{"LOGIN"}</Text>
-        </TouchableOpacity>
-      </View>
-    )
-  }
-}
-
-const { width } = Dimensions.get("window");
-
-class chooseActivity extends React.Component {
-  static navigationOptions = {
-    title: 'Choose',
-    header: null
-  }
-
-  constructor(props) {
-    super(props);
-  }
-
-  workoutPress() {
-    this.props.navigation.navigate('workout');
-  }
-
-  sportsPress() {
-    this.props.navigation.navigate('sports');
-  }
-
-  render() {
-    const workoutTile = [];
-    const sportsTile = [];
-    return (
-      <ScrollView style={[styles.container3], {backgroundColor: '#81A078', paddingTop: 40}} contentContainerStyle={styles.cont}>
-        <Text style={{fontSize: 28, fontWeight: 'bold', textAlign: 'center', color: 'white'}}>Today I feel like... </Text>
-        <View>
-          <TouchableOpacity style={{paddingTop: 40, paddingBottom: 20}} onPress={() => {this.workoutPress()}}>
-            <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-              source={require ('./images/workout.png')}
-            />
-            <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>working out</Text>
-            {workoutTile.map(i => Item({...tileDimensions, text: i}))}
-          </TouchableOpacity>
-        </View>
-        <View>
-          <TouchableOpacity onPress={() => {this.sportsPress()}} style={{display: 'flex'}}>
-            <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-              source={require ('./images/sports.png')}
-            />
-            <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>a pick-up game</Text>
-            {sportsTile.map(i => Item({...tileDimensions, text: i}))}
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    );
-  }
-}
-
 const Item = ({size, margin, text}) => (
   <View style={[styles.item, {width: size, height: size, marginHorizontal: margin}]}>
     <Text style={styles.itemText}>{text}</Text>
@@ -333,114 +124,6 @@ const calcTileDimensions = (deviceWidth, tpr) => {
   const size = (deviceWidth - margin * (tpr * 2)) / tpr;
   return { size, margin };
 };
-
-class workoutScreen extends React.Component {
-  static navigationOptions = {
-    title: 'workout',
-    header: null
-  }
-
-  run() {
-    this.props.navigation.navigate('runMap');
-  }
-
-  render() {
-    const run = [];
-    const gym = [];
-    const yoga = [];
-    const hit = [];
-
-    return (
-      <ScrollView style={[styles.container3], {backgroundColor: '#98a5ba', paddingTop: 40}} contentContainerStyle={styles.cont}>
-        <Text style={{fontSize: 28, fontWeight: 'bold', textAlign: 'center', color: 'white'}}>and I want to... </Text>
-        <View>
-          <TouchableOpacity onPress={() => {this.run()}} style={{paddingTop: 40, paddingBottom: 20}}>
-            <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-              source={require ('./images/run1.png')}
-            />
-            <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>run</Text>
-            {run.map(i => Item({...tileDimensions, text: i}))}
-          </TouchableOpacity>
-        </View>
-        <View>
-          <TouchableOpacity style={{display: 'flex', paddingTop: 10, paddingBottom: 20}}>
-            <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-              source={require ('./images/hit1.png')}
-            />
-            <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>keep it high-intensity</Text>
-            {hit.map(i => Item({...tileDimensions, text: i}))}
-          </TouchableOpacity>
-        </View>
-        <View>
-          <TouchableOpacity style={{textAlign: 'center', color: 'white', paddingTop: 10, paddingBottom: 20}}>
-            <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-              source={require ('./images/gym1.png')}
-            />
-            <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>go to the gym</Text>
-            {gym.map(i => Item({...tileDimensions, text: i}))}
-          </TouchableOpacity>
-        </View>
-        <View>
-          <TouchableOpacity style={{textAlign: 'center', color: 'white', paddingTop: 10, paddingBottom: 20}}>
-            <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-              source={require ('./images/yoga1.png')}
-            />
-            <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>yoga</Text>
-            {yoga.map(i => Item({...tileDimensions, text: i}))}
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    );
-  }
-}
-
-class sportsScreen extends React.Component {
-  static navigationOptions = {
-    title: 'sports',
-    header: null
-  }
-
-  render() {
-    const basketball = [];
-    const football = [];
-    const soccer = [];
-    const tennis = [];
-
-    return (
-      <ScrollView style={[styles.container3], {backgroundColor: '#8fb2b7', paddingTop: 40}} contentContainerStyle={styles.cont}>
-        <Text style={{fontSize: 30, fontWeight: 'bold', textAlign: 'center', color: 'white'}}>Today I feel like playing... </Text>
-        <TouchableOpacity style={{textAlign: 'center', color: 'white', paddingTop: 40, paddingBottom: 20}}>
-          <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-            source={require ('./images/basketball1.png')}
-          />
-          <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>basketball</Text>
-          {basketball.map(i => Item({...tileDimensions, text: i}))}
-        </TouchableOpacity>
-        <TouchableOpacity style={{ paddingTop: 15, paddingBottom: 20 }}>
-          <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-            source={require ('./images/football1.png')}
-          />
-          <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>football</Text>
-          {football.map(i => Item({...tileDimensions, text: i}))}
-        </TouchableOpacity>
-        <TouchableOpacity style={{ paddingTop: 15, paddingBottom: 20 }}>
-          <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-            source={require ('./images/soccer1.png')}
-          />
-          <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>soccer</Text>
-          {soccer.map(i => Item({...tileDimensions, text: i}))}
-        </TouchableOpacity>
-        <TouchableOpacity style={{ paddingTop: 15, paddingBottom: 20 }}>
-          <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-            source={require ('./images/tennis1.png')}
-          />
-          <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>tennis</Text>
-          {tennis.map(i => Item({...tileDimensions, text: i}))}
-        </TouchableOpacity>
-      </ScrollView>
-    );
-  }
-}
 
 class App extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -633,7 +316,7 @@ class DiscoverScreen extends React.Component {
       users: [],
       dataSource: ds.cloneWithRows([]),
     }
-    fetch(site + '/users', {
+    fetch(`${site}/users`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json"
@@ -671,7 +354,7 @@ class DiscoverScreen extends React.Component {
   }
 
   touchUser(user) {
-    fetch(site + 'profile/' + user._id ,{
+    fetch(`${site}/profile/${user.id}`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json"
@@ -686,7 +369,7 @@ class DiscoverScreen extends React.Component {
   }
 
   longTouchUser(user) {
-    fetch(site + '/messages' + user._id, {
+    fetch(`${site}/messages/${user.id}`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json"
@@ -720,13 +403,13 @@ class DiscoverScreen extends React.Component {
 
 export default StackNavigator({
     chooseActivity: {
-      screen: chooseActivity,
+      screen: ChooseActivity,
     },
-    workout: {
-      screen: workoutScreen,
+    Workout: {
+      screen: WorkoutScreen,
     },
-    sports: {
-      screen: sportsScreen,
+    Sports: {
+      screen: SportsScreen,
     },
     Login: {
       screen: LoginScreen,
@@ -737,13 +420,12 @@ export default StackNavigator({
     Home: {
       screen: HomeScreen,
     },
-    runMap: {
+    RunMap: {
       screen: App,
     },
     Users: {
       screen: DiscoverScreen
     }
-
   },
   {initialRouteName: 'Home'},
   { headerMode: 'screen' }

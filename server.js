@@ -1,6 +1,7 @@
 'use strict';
 
 var express = require('express');
+var app = express();
 var exphbs = require('express-handlebars'); 
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -10,10 +11,17 @@ var util = require('util');
 var flash = require('connect-flash');
 const router = express.Router();
 var bodyParser = require('body-parser');
+var models = require('./models/models');
+var bcrypt = require('bcrypt');
 
-var User = require('./models/models').User
+var User = models.User
 
-var app = express();
+app.use(bodyParser.json());
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(require('cookie-parser')());
+app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
 
 var REQUIRED_ENV = ['MONGODB_URI'];
 REQUIRED_ENV.forEach(function(el) {
@@ -23,40 +31,61 @@ REQUIRED_ENV.forEach(function(el) {
 
 var IS_DEV = app.get('env') === 'development';
 
-app.set('views', __dirname + '/views')
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
+app.use(passport.initialize());
+app.use(passport.session());
 
-var session = require('cookie-session');
-app.use(session({
-  keys: [ process.env.SECRET || 'fake secret' ]
+passport.serializeUser(function(user, done) {
+    done(null, user._id);
+});
+  
+passport.deserializeUser(function(id, done) {
+    User.findById(id, function(err, user) {
+        done(err, user);
+    })
+    .catch(function(error) {
+        console.log('deserialize error', error)
+        done(error);
+    })
+});
+
+  // passport strategy
+  passport.use(new LocalStrategy(function(username, password, done) {
+    var uname = username.toLowerCase();
+
+    User.findOne({ where: { username: uname }})
+    .then(user => {
+      if(user) {
+        bcrypt.compare(password, user.password, function(err, res){
+            if (res){
+                done(null, user);
+            } else {
+                console.log(`The hash did not work for you \n ${err}`);
+                done(null, false);
+            }
+        });
+      } else {
+        done(null, false);
+      }
+    })
+    .catch(function(error){
+        console.log(`There was an error with the Local Strategy\n ${error}`);
+    })
 }));
-
-var compression = require('compression');
-app.use(compression());
-
-// store session state in browser cookie
-var cookieSession = require('cookie-session');
-app.use(cookieSession({
-    keys: ['secret1', 'secret2']
-}));
-2
-// parse urlencoded request bodies into req.body
-var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({extended: false}));
-
 
 var validateReq = function(userData) {
     if (userData.password !== userData.passwordRepeat) {
+        console.log("Passwords don't match.")
       return "Passwords don't match.";
     }
 
     if (!userData.username) {
-      return "Please enter a username.";
+        console.log("No username entered")
+        return "Please enter a username.";
     }
 
     if (!userData.password) {
-      return "Please enter a password.";
+        console.log("No password entered")
+        return "Please enter a password.";
     }
 };
 
@@ -66,62 +95,39 @@ app.get('/register', (req, res) => {
 
 app.post('/register', (req, res, next) => {
     var error = validateReq(req.body);
+
     if (error) {
-        console.log(error)
+        console.log('there was an error', error)
+        res.json({error: error})
     }
 
-    var user = new User ({
-        username : req.body.username,
-        password: req.body.password,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName
-    })
+    const saltRounds = 10;
 
-    user.save(function(err){
-    if (err){
-        console.log('there was an error', err)
-        res.status(500).redirect('/register');
-        return;
-      }
-      console.log("Saved User: ", user);
-      res.json({success: true})
-      res.redirect('/login');
+    bcrypt.hash(req.body.password, saltRounds)
+    .then(function(hash) {
+        var uname = req.body.username.toLowerCase()
+
+        var user = new User ({
+            username : uname,
+            password: hash,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName
+        })
+
+        user.save(function(err){
+            if (err){
+                console.log('there was an error', err)
+                return res.redirect(500, '/register');
+            }
+        })
     })
+    .then(function(){
+        return res.json({success: true});
+    })
+    .catch(function(error) {
+      console.log(`There was an error registering the User\n ${error}`)
+    });
 })
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-passport.serializeUser(function(user, done) {
-    done(null, user._id);
-  });
-  
-  passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
-      done(err, user);
-    });
-  });
-  
-  // passport strategy
-  passport.use(new LocalStrategy(function(username, password, done) {
-    if (! util.isString(username)) {
-      done(null, false, {message: 'User must be string.'});
-      return;
-    }
-    // Find the user with the given username
-    User.findOne({ username: username, password: password }, function (err, user) {
-      if (err) {
-        done(err);
-        return;
-      }
-      if (!user) {
-        done(null, false, { message: 'Incorrect username or password' });
-        return;
-      }
-  
-      done(null, user);
-    });
-}));
 
 app.get('/login', (req, res) => {
     res.json({success: true})
