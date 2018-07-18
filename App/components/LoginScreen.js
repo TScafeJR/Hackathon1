@@ -4,6 +4,8 @@ import { Header, Body, Title } from 'native-base';
 import { Constants } from 'expo';
 import { StackNavigator } from 'react-navigation';
 
+const site = 'https://ee500919.ngrok.io'
+
 const { width } = Dimensions.get("window");
 
 const PAGE_WIDTH = Dimensions.get('window').width;
@@ -31,47 +33,58 @@ export default class LoginScreen extends React.Component {
         this.state = {
         username:'',
         password:'',
-        err:''
+        error:''
         }
     }
 
     componentDidMount() {
-        AsyncStorage.getItem('user')
-        .then(result => {
-        const parsedResult = JSON.parse(result);
-        const username = parsedResult.username;
-        const password = parsedResult.password;
-        if (username && password) {
-            return login(username, password)
+      AsyncStorage.getItem('user')
+      .then(result => {
+        if (result) {
+          var parsedResult = JSON.parse(result);
+          var username = parsedResult.username;
+          var password = parsedResult.password;
+          if (username && password) {
+            return this.login2press(username, password)
+            .then(resp => resp.json())
+            .then( resp => {return resp})
+          }
         }
-        })
-        .catch(err => { console.log('error', err); })
+        return
+      })
+      .catch(err => {
+        return
+      });
     }
 
-    login2press() {
-        fetch(`${site}/login`,
-        {
+    login2press(username, password) {
+        fetch(`${site}/login`, {
         method: 'POST',
-        headers: {"Content-Type": "application/json"},
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({
-            username: this.state.username,
-            password: this.state.password,
-        })
+            username: username,
+            password: password,
+          })
         })
         .then((response) => response.json())
         .then((responseJson) => {
         if(responseJson.success) {
             AsyncStorage.setItem('user', JSON.stringify({
-            username: this.state.username,
-            password: this.state.password
+            username: username,
+            password: password
             }))
-            .then(() => this.props.navigation.navigate('chooseActivity'))
+            return this.props.navigation.navigate('ChooseActivity');
         } else {
-            this.setState({error: 'error'});
-        }
+            alert('Login failed');
+            console.log('error in fetchlogin', responseJson.error);
+            this.setState({error: responseJson.error});
+          }
         })
         .catch((err) => {
-        console.log("Error!", err);
+          console.log("Error!", err);
+          alert(err)
         });
     }
 
@@ -79,24 +92,32 @@ export default class LoginScreen extends React.Component {
         this.props.navigation.navigate('Register');
     }
 
+    setUsername(text){
+      this.setState(Object.assign({}, this.state, {username: text}));
+    }
+  
+    setPassword(text){
+      this.setState(Object.assign({}, this.state, {password: text}))
+    }
+
     render() {
         return (
         <View style={styles.container1}>
             <Text style={styles.title}>Your Account For Everything Runnr+</Text>
             <TextInput
-            style={{height: 40, borderStyle: 'solid', margin: 10}}
+            style={{textAlign: 'center', height: 40, borderStyle: 'solid', margin: 10}}
             placeholderTextColor="white"
             placeholder="Username"
-            onChangeText={(text) => this.setState({username: text})}
+            onChangeText={(text) => this.setUsername(text)}
             />
             <TextInput
-            style={{height: 40, borderStyle: 'solid', margin: 10}}
+            style={{textAlign: 'center', height: 40, borderStyle: 'solid', margin: 10}}
             placeholderTextColor="white"
             placeholder="Password"
             secureTextEntry={true}
-            onChangeText={(text) => this.setState({password: text})}
+            onChangeText={(text) => this.setPassword(text)}
             />
-            <TouchableOpacity onPress={ () => {this.login2press()} } style={styles.buttonLogin1}>
+            <TouchableOpacity onPress={ () => {this.login2press(this.state.username, this.state.password)} } style={styles.buttonLogin1}>
             <Text style={styles.buttonText}>{"LOGIN"}</Text>
             </TouchableOpacity>
         </View>

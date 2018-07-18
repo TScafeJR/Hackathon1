@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { Animated, Text, View, Dimensions, TextInput, TouchableOpacity, StyleSheet, AsyncStorage, Button, ListView, Alert, ScrollView, Image, Slider } from 'react-native';
 import { Constants } from 'expo';
 import { Header, Body, Title } from 'native-base';
 
@@ -30,11 +30,11 @@ export default class chooseActivity extends React.Component {
     }
   
     workoutPress() {
-      this.props.navigation.navigate('workout');
+      this.props.navigation.navigate('Workout');
     }
   
     sportsPress() {
-      this.props.navigation.navigate('sports');
+      this.props.navigation.navigate('Sports');
     }
   
     render() {

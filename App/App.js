@@ -402,7 +402,7 @@ class DiscoverScreen extends React.Component {
 }
 
 export default StackNavigator({
-    chooseActivity: {
+    ChooseActivity: {
       screen: ChooseActivity,
     },
     Workout: {

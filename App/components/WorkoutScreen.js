@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { Animated, Text, View, Dimensions, TextInput, TouchableOpacity, StyleSheet, AsyncStorage, Button, ListView, Alert, ScrollView, Image, Slider } from 'react-native';
 import { Header, Body, Title } from 'native-base';
 import { Constants } from 'expo';
 
