@@ -24,6 +24,10 @@ export default class SportsScreen extends React.Component {
       title: 'sports',
       header: null
     }
+
+    landingPress(){
+      this.props.navigation.navigate('Landing');
+    }
   
     render() {
       const basketball = [];
@@ -34,7 +38,7 @@ export default class SportsScreen extends React.Component {
       return (
         <ScrollView style={[styles.container3], {backgroundColor: '#8fb2b7', paddingTop: 40}} contentContainerStyle={styles.cont}>
           <Text style={{fontSize: 30, fontWeight: 'bold', textAlign: 'center', color: 'white'}}>Today I feel like playing... </Text>
-          <TouchableOpacity style={{textAlign: 'center', color: 'white', paddingTop: 40, paddingBottom: 20}}>
+          <TouchableOpacity style={{textAlign: 'center', color: 'white', paddingTop: 40, paddingBottom: 20}} onPress={() => {this.landingPress()}}>
             <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
               source={require ('../images/basketball1.png')}
             />

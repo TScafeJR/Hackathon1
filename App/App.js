@@ -9,6 +9,7 @@ import LoginScreen from './components/LoginScreen.js'
 import RegisterScreen from './components/RegisterScreen.js'
 import SportsScreen from './components/SportsScreen.js'
 import WorkoutScreen from './components/WorkoutScreen.js'
+import LandingScreen from './components/LandingScreen.js'
 
 // const site = 'https://stark-bastion-71532.herokuapp.com/'
 const site = 'https://e6160c80.ngrok.io'
@@ -425,9 +426,12 @@ export default StackNavigator({
     },
     Users: {
       screen: DiscoverScreen
+    },
+    Landing: {
+      screen: LandingScreen
     }
   },
-  {initialRouteName: 'Home'},
+  {initialRouteName: 'Landing'},
   { headerMode: 'screen' }
 );
 

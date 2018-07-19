@@ -175,13 +175,19 @@ app.get('profile', (req, res) => {
     })
 })
 
-app.get('profile/:id', (req, res) => {
-    User.findById(req.params.id, function(err, user){
-        if (err){
-            console.log('there was an error', err)
-            res.json({success: false})
+app.get('/profile/:username', (req, res) => {
+    User.find({username: req.params.username})
+    .then((user)=>{
+        if (user[0]){
+        user[0].password = undefined;
+        res.json({success: true, user: user[0]})
+        } else {
+            res.json({success: false});
         }
-        res.json({success: true, user: user})
+    })
+    .catch((error)=>{
+        console.log('there was an error', error)
+        res.json({success: false});
     })
 })
 
