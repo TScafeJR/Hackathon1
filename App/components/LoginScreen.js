@@ -4,7 +4,7 @@ import { Header, Body, Title } from 'native-base';
 import { Constants } from 'expo';
 import { StackNavigator } from 'react-navigation';
 
-const site = 'https://ee500919.ngrok.io'
+const site = 'https://e6160c80.ngrok.io'
 
 const { width } = Dimensions.get("window");
 
@@ -44,7 +44,8 @@ export default class LoginScreen extends React.Component {
           var parsedResult = JSON.parse(result);
           var username = parsedResult.username;
           var password = parsedResult.password;
-          if (username && password) {
+          console.log(`this is the user and password combination: ${username}, ${password}`)
+          if (username.length > 0 && password.length > 0) {
             return this.login2press(username, password)
             .then(resp => resp.json())
             .then( resp => {return resp})
@@ -83,7 +84,7 @@ export default class LoginScreen extends React.Component {
           }
         })
         .catch((err) => {
-          console.log("Error!", err);
+          console.log("Error!", JSON.stringify(err));
           alert(err)
         });
     }

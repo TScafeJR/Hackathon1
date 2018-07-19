@@ -4,7 +4,7 @@ import { Header, Body, Title } from 'native-base';
 import { StackNavigator } from 'react-navigation';
 import { Constants } from 'expo';
 
-const site = 'https://ee500919.ngrok.io'
+const site = 'https://e6160c80.ngrok.io'
 
 const { width } = Dimensions.get("window");
 

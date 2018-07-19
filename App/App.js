@@ -11,7 +11,7 @@ import SportsScreen from './components/SportsScreen.js'
 import WorkoutScreen from './components/WorkoutScreen.js'
 
 // const site = 'https://stark-bastion-71532.herokuapp.com/'
-const site = 'https://ee500919.ngrok.io'
+const site = 'https://e6160c80.ngrok.io'
 
 const { width } = Dimensions.get("window");
 

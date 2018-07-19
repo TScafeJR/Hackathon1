@@ -26,7 +26,7 @@ export default class WorkoutScreen extends React.Component {
     }
   
     run() {
-      this.props.navigation.navigate('runMap');
+      this.props.navigation.navigate('RunMap');
     }
   
     render() {
