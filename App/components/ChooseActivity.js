@@ -46,7 +46,7 @@ export default class chooseActivity extends React.Component {
           <View>
             <TouchableOpacity style={{paddingTop: 40, paddingBottom: 20}} onPress={() => {this.workoutPress()}}>
               <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-                source={require ('../images/workout.png')}
+                source={{uri: 'https://res.cloudinary.com/tscafejr/image/upload/v1532455580/runner/app_images/workout.gif'}}
               />
               <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>working out</Text>
               {workoutTile.map(i => Item({...tileDimensions, text: i}))}
@@ -55,7 +55,7 @@ export default class chooseActivity extends React.Component {
           <View>
             <TouchableOpacity onPress={() => {this.sportsPress()}} style={{display: 'flex'}}>
               <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-                source={require ('../images/sports.png')}
+                source={{uri: 'https://res.cloudinary.com/tscafejr/image/upload/v1532455580/runner/app_images/sports.gif'}}
               />
               <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>a pick-up game</Text>
               {sportsTile.map(i => Item({...tileDimensions, text: i}))}

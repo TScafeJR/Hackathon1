@@ -1,77 +1,94 @@
-import React from 'react';
-import { Animated, Text, View, Dimensions, TextInput, TouchableOpacity, StyleSheet, AsyncStorage, Button, ListView, Alert, ScrollView, Image, Slider} from 'react-native';
-import { Header, Body, Title } from 'native-base';
+import { StyleSheet, Dimensions } from 'react-native'
 import { Constants } from 'expo';
-
-const { width } = Dimensions.get("window");
 
 const PAGE_WIDTH = Dimensions.get('window').width;
 
-const Item = ({size, margin, text}) => (
-  <View style={[styles.item, {width: size, height: size, marginHorizontal: margin}]}>
-    <Text style={styles.itemText}>{text}</Text>
-  </View>
-)
-
-const calcTileDimensions = (deviceWidth, tpr) => {
-  const margin = deviceWidth / (tpr * 10);
-  const size = (deviceWidth - margin * (tpr * 2)) / tpr;
-  return { size, margin };
-};
-
-export default class SportsScreen extends React.Component {
-    static navigationOptions = {
-      title: 'sports',
-      header: null
-    }
-
-    landingPress(){
-      this.props.navigation.navigate('Landing');
-    }
-  
-    render() {
-      const basketball = [];
-      const football = [];
-      const soccer = [];
-      const tennis = [];
-  
-      return (
-        <ScrollView style={[styles.container3], {backgroundColor: '#8fb2b7', paddingTop: 40}} contentContainerStyle={styles.cont}>
-          <Text style={{fontSize: 30, fontWeight: 'bold', textAlign: 'center', color: 'white'}}>Today I feel like playing... </Text>
-          <TouchableOpacity style={{justifyContent: 'center', paddingTop: 40, paddingBottom: 20}} onPress={() => {this.landingPress()}}>
-            <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-              source={{uri: 'https://res.cloudinary.com/tscafejr/image/upload/v1532455579/runner/app_images/basketball1.gif'}}
-            />
-            <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>basketball</Text>
-            {basketball.map(i => Item({...tileDimensions, text: i}))}
-          </TouchableOpacity>
-          <TouchableOpacity style={{ paddingTop: 15, paddingBottom: 20 }}>
-            <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-              source={{uri: 'https://res.cloudinary.com/tscafejr/image/upload/v1532455579/runner/app_images/football1.gif'}}
-            />
-            <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>football</Text>
-            {football.map(i => Item({...tileDimensions, text: i}))}
-          </TouchableOpacity>
-          <TouchableOpacity style={{ paddingTop: 15, paddingBottom: 20 }}>
-            <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-              source={{uri: 'https://res.cloudinary.com/tscafejr/image/upload/v1532455579/runner/app_images/soccer1.gif'}}
-            />
-            <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>soccer</Text>
-            {soccer.map(i => Item({...tileDimensions, text: i}))}
-          </TouchableOpacity>
-          <TouchableOpacity style={{ paddingTop: 15, paddingBottom: 20 }}>
-            <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-              source={{uri: 'https://res.cloudinary.com/tscafejr/image/upload/v1532455580/runner/app_images/tennis1.gif'}}
-            />
-            <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>tennis</Text>
-            {tennis.map(i => Item({...tileDimensions, text: i}))}
-          </TouchableOpacity>
-        </ScrollView>
-      );
-    }
-  }
-
-  const styles = StyleSheet.create({
+const styles = StyleSheet.create({
+  inputField: {
+    alignSelf: 'stretch',
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingRight: 10,
+    paddingLeft: 10,
+    marginTop: 10,
+    marginLeft: 5,
+    marginRight: 5,
+    borderRadius: 5,
+    height: 60,
+    // borderColor: 'gray',
+    borderWidth: 1,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)'
+  },
+  inputField2: {
+    alignSelf: 'stretch',
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingRight: 10,
+    paddingLeft: 10,
+    marginTop: 10,
+    marginLeft: 5,
+    marginRight: 5,
+    borderRadius: 5,
+    height: 50,
+    // borderColor: 'gray',
+    borderWidth: 1,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)'
+  },
+  inputField3: {
+    alignSelf: 'stretch',
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingRight: 10,
+    paddingLeft: 10,
+    marginTop: 10,
+    marginLeft: 5,
+    marginRight: 5,
+    borderRadius: 5,
+    height: 90,
+    // borderColor: 'gray',
+    borderWidth: 1,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)'
+  },
+  inputField4: {
+    alignSelf: 'stretch',
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingRight: 10,
+    paddingLeft: 10,
+    marginTop: 10,
+    marginLeft: 5,
+    marginRight: 5,
+    borderRadius: 5,
+    height: 50,
+    // borderColor: 'gray',
+    borderWidth: 1,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    width: 90
+  },
+  buttonLabel: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  buttonLabel2: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: 'blue',
+    fontWeight: 'bold',
+  },
+  button: {
+    alignSelf: 'stretch',
+    paddingTop: 10,
+    paddingBottom: 10,
+    marginTop: 10,
+    marginLeft: 5,
+    marginRight: 5,
+    borderRadius: 5,
+  },
+  buttonLightBlue: {
+    backgroundColor: '#CB3066'
+  },
     container5: {
       flexDirection: 'column',
       backgroundColor: 'red',
@@ -295,3 +312,5 @@ export default class SportsScreen extends React.Component {
       borderRadius: (PAGE_WIDTH -100)/2,
     }
   });
+
+  module.exports = styles;

@@ -41,34 +41,34 @@ export default class WorkoutScreen extends React.Component {
           <View>
             <TouchableOpacity onPress={() => {this.run()}} style={{paddingTop: 40, paddingBottom: 20}}>
               <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-                source={require ('../images/run1.png')}
+                source={{uri: 'https://res.cloudinary.com/tscafejr/image/upload/v1532455579/runner/app_images/run1.gif'}}
               />
               <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>run</Text>
               {run.map(i => Item({...tileDimensions, text: i}))}
             </TouchableOpacity>
           </View>
           <View>
-            <TouchableOpacity style={{display: 'flex', paddingTop: 10, paddingBottom: 20}}>
+            <TouchableOpacity style={{display: 'flex', paddingTop: 10, paddingBottom: 20, display: 'none'}}>
               <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-                source={require ('../images/hit1.png')}
+                source={{uri: 'https://res.cloudinary.com/tscafejr/image/upload/v1532455579/runner/app_images/hit1.gif'}}
               />
               <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>keep it high-intensity</Text>
               {hit.map(i => Item({...tileDimensions, text: i}))}
             </TouchableOpacity>
           </View>
           <View>
-            <TouchableOpacity style={{textAlign: 'center', color: 'white', paddingTop: 10, paddingBottom: 20}}>
+            <TouchableOpacity style={{justifyContent: 'center', paddingTop: 10, paddingBottom: 20, display: 'none'}}>
               <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-                source={require ('../images/gym1.png')}
+                source={{uri: 'https://res.cloudinary.com/tscafejr/image/upload/v1532455579/runner/app_images/gym1.gif'}}
               />
-              <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>go to the gym</Text>
+              <Text style={{textAlign: 'center', paddingTop: 15, fontSize: 16}}>go to the gym</Text>
               {gym.map(i => Item({...tileDimensions, text: i}))}
             </TouchableOpacity>
           </View>
           <View>
-            <TouchableOpacity style={{textAlign: 'center', color: 'white', paddingTop: 10, paddingBottom: 20}}>
+            <TouchableOpacity style={{justifyContent: 'center', paddingTop: 10, paddingBottom: 20, display: 'none'}}>
               <Image style={[styles.shadow], {resizeMode: 'contain', width: 150, height: 150}}
-                source={require ('../images/yoga1.png')}
+                source={{uri: 'https://res.cloudinary.com/tscafejr/image/upload/v1532455581/runner/app_images/yoga1.gif'}}
               />
               <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>yoga</Text>
               {yoga.map(i => Item({...tileDimensions, text: i}))}

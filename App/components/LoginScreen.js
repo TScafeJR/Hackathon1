@@ -44,7 +44,6 @@ export default class LoginScreen extends React.Component {
           var parsedResult = JSON.parse(result);
           var username = parsedResult.username;
           var password = parsedResult.password;
-          console.log(`this is the user and password combination: ${username}, ${password}`)
           if (username.length > 0 && password.length > 0) {
             return this.login2press(username, password)
             .then(resp => resp.json())
@@ -76,7 +75,7 @@ export default class LoginScreen extends React.Component {
             username: username,
             password: password
             }))
-            return this.props.navigation.navigate('ChooseActivity');
+            return this.props.navigation.navigate('Profile');
         } else {
             alert('Login failed');
             console.log('error in fetchlogin', responseJson.error);

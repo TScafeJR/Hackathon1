@@ -5,7 +5,6 @@ var app = express();
 var exphbs = require('express-handlebars'); 
 var path = require('path');
 var bodyParser = require('body-parser');
-var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var util = require('util');
 var flash = require('connect-flash');
@@ -31,6 +30,7 @@ REQUIRED_ENV.forEach(function(el) {
 
 var IS_DEV = app.get('env') === 'development';
 
+var passport = require('passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -165,22 +165,28 @@ app.get('/users', (req, res) => {
     })
 })
 
-app.get('profile', (req, res) => {
-    User.findById(req.user.id, function(err, user){
-        if (err){
-            console.log('there was an error', err)
-            res.json({success: false})
-        }
-        res.json({success: true, user: user})
-    })
+app.get('/profile', (req, res) => {
+    console.log(req.user)
+    if (req.user){
+        res.send({
+            success: true,
+            firstName: req.user.firstName,
+            lastName: req.user.lastName,
+            username: req.user.username
+        })
+    } else {
+        res.send({
+            success: false
+        })
+    }
 })
 
 app.get('/profile/:username', (req, res) => {
     User.find({username: req.params.username})
     .then((user)=>{
         if (user[0]){
-        user[0].password = undefined;
-        res.json({success: true, user: user[0]})
+            user[0].password = undefined;
+            res.json({success: true, user: user[0]})
         } else {
             res.json({success: false});
         }
