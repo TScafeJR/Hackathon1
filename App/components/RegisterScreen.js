@@ -4,7 +4,7 @@ import { Header, Body, Title } from 'native-base';
 import { StackNavigator } from 'react-navigation';
 import { Constants } from 'expo';
 
-const site = 'https://e6160c80.ngrok.io'
+import DOMAIN from '../../env'
 
 const { width } = Dimensions.get("window");
 
@@ -84,7 +84,7 @@ export default class RegisterScreen extends React.Component {
   
     register2press(username, password, passwordRepeat, firstName, lastName) {
 
-      fetch(`${site}/register`, {
+      fetch(`${DOMAIN}/register`, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json"

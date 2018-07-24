@@ -11,8 +11,7 @@ import SportsScreen from './components/SportsScreen.js'
 import WorkoutScreen from './components/WorkoutScreen.js'
 import LandingScreen from './components/LandingScreen.js'
 
-// const site = 'https://stark-bastion-71532.herokuapp.com/'
-const site = 'https://e6160c80.ngrok.io'
+import DOMAIN from '../env.js'
 
 const { width } = Dimensions.get("window");
 
@@ -317,7 +316,7 @@ class DiscoverScreen extends React.Component {
       users: [],
       dataSource: ds.cloneWithRows([]),
     }
-    fetch(`${site}/users`, {
+    fetch(`${DOMAIN}/users`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json"
@@ -355,7 +354,7 @@ class DiscoverScreen extends React.Component {
   }
 
   touchUser(user) {
-    fetch(`${site}/profile/${user.id}`, {
+    fetch(`${DOMAIN}/profile/${user.id}`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json"

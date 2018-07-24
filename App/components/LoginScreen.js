@@ -4,7 +4,7 @@ import { Header, Body, Title } from 'native-base';
 import { Constants } from 'expo';
 import { StackNavigator } from 'react-navigation';
 
-const site = 'https://e6160c80.ngrok.io'
+import DOMAIN from '../../env'
 
 const { width } = Dimensions.get("window");
 
@@ -59,7 +59,7 @@ export default class LoginScreen extends React.Component {
     }
 
     login2press(username, password) {
-        fetch(`${site}/login`, {
+        fetch(`${DOMAIN}/login`, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json"
