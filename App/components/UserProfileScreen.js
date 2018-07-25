@@ -1,9 +1,9 @@
 import React from 'react';
 import { Dimensions, Image, View, TextInput, ScrollView, TouchableOpacity, KeyboardAvoidingView, AsyncStorage, Platform, StyleSheet, Alert} from 'react-native';
 import { ImagePicker, LinearGradient } from 'expo';
-// import styles from '../styles.js';
 import DOMAIN from '../../env.js';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
+import LandingFooter from './LandingFooter.js'
 
 const { width } = Dimensions.get("window");
 
@@ -32,6 +32,8 @@ export default class UserProfile extends React.Component{
       bio: '',
       homeState: '',
       isDateTimePickerVisible: false,
+      goToProfile: props.goToProfile,
+      goToDiscover: props.goToDiscover
     }
   }
 
@@ -100,6 +102,8 @@ export default class UserProfile extends React.Component{
   }
 
   render() {
+    const { navigation } = this.props;
+
       return (
         <Container>
       <Header />
@@ -135,6 +139,7 @@ export default class UserProfile extends React.Component{
           </CardItem>
         </Card>
       </Content>
+      <LandingFooter navigation={this.props.navigation}/>
     </Container>
       );
   }

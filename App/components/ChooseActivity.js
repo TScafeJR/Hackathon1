@@ -2,6 +2,7 @@ import React from 'react';
 import { Animated, Text, View, Dimensions, TextInput, TouchableOpacity, StyleSheet, AsyncStorage, Button, ListView, Alert, ScrollView, Image, Slider } from 'react-native';
 import { Constants } from 'expo';
 import { Header, Body, Title } from 'native-base';
+import LandingFooter from './LandingScreen.js'
 
 const { width } = Dimensions.get("window");
 
@@ -60,7 +61,7 @@ export default class chooseActivity extends React.Component {
               <Text style={{textAlign: 'center', color: 'white', paddingTop: 15, fontSize: 16}}>a pick-up game</Text>
               {sportsTile.map(i => Item({...tileDimensions, text: i}))}
             </TouchableOpacity>
-          </View>
+          </View>       
         </ScrollView>
       );
     }

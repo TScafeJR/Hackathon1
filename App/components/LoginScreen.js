@@ -75,7 +75,7 @@ export default class LoginScreen extends React.Component {
             username: username,
             password: password
             }))
-            return this.props.navigation.navigate('Profile');
+            return this.props.navigation.navigate('Landing');
         } else {
             alert('Login failed');
             console.log('error in fetchlogin', responseJson.error);
