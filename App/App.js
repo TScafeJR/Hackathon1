@@ -11,7 +11,8 @@ import SportsScreen from './components/SportsScreen.js'
 import WorkoutScreen from './components/WorkoutScreen.js'
 import LandingScreen from './components/LandingScreen.js'
 import RunnerMap from './components/RunnerMap.js'
-import UserProfile from './components/UserProfile.js'
+import UserProfileEditScreen from './components/UserProfileEdit.js'
+import UserProfileScreen from './components/UserProfileScreen.js'
 
 import DOMAIN from '../env.js'
 
@@ -252,8 +253,11 @@ export default StackNavigator({
     Landing: {
       screen: LandingScreen
     },
+    ProfileEdit: {
+      screen: UserProfileEditScreen
+    },
     Profile: {
-      screen: UserProfile
+      screen: UserProfileScreen
     }
   },
   {initialRouteName: 'Login'},

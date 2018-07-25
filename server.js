@@ -197,6 +197,20 @@ app.get('/profile/:username', (req, res) => {
     })
 })
 
+app.post('/profileUpdate', (req, res)=>{
+    User.update(
+        {username: req.body.username},
+        req.body,
+        { upsert: true })
+        .then((response) =>{
+            res.json({success: true});
+        })
+        .catch((error)=>{
+            console.log('there was an error', error)
+            res.json({success: false, error: error});
+        })
+})
+
 app.get('/messages:userId', (req, res) => {
     User.findById(req.params.userId, function(err, user){
         if (err){

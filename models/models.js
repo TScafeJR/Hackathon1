@@ -25,6 +25,14 @@ var userSchema = mongoose.Schema({
   lastName: {
     type: String,
     required: true
+  },
+  hometown: {
+    type: String,
+    required: false
+  },
+  bio: {
+    type: String,
+    required: false
   }
 });
 

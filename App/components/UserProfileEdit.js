@@ -5,7 +5,7 @@ import styles from '../styles.js';
 import DOMAIN from '../../env.js';
 import { Header, Label, Button, Right, Left, Icon, Body, Title } from 'native-base';
 
-export default class profileScreen extends React.Component {
+export default class profileEditScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,7 +17,8 @@ export default class profileScreen extends React.Component {
   }
 
   static navigationOptions = {
-    title: 'Profile'
+    title: 'Profile',
+    header: null
   };
 
   componentDidMount() {
@@ -39,7 +40,9 @@ export default class profileScreen extends React.Component {
                   this.setState({
                     firstName: user.firstName,
                     lastName: user.lastName,
-                    username: user.username
+                    username: user.username,
+                    bio: user.bio,
+                    hometown: user.hometown
                   })
                } else {
                    console.log("The user is not logged in to perform the profile search. Please login.");
@@ -134,7 +137,7 @@ export default class profileScreen extends React.Component {
 
 
   goBack() {
-    this.props.navigation.navigate('UserFeed')
+    this.props.navigation.navigate('Profile')
   }
 
   addCar() {
@@ -145,64 +148,48 @@ export default class profileScreen extends React.Component {
     let update = Object.assign({}, this.state, {firstName: text})
     this.setState(update)
   }
+
   setLastName(text){
     let update = Object.assign({}, this.state, {lastName: text})
     this.setState(update)
   }
-  setBirthdayMonth(text){
-    let update = Object.assign({}, this.state, {month: text})
-    this.setState(update)
-  }
-  setBirthdayDay(text){
-    let update = Object.assign({}, this.state, {day: text})
-    this.setState(update)
-  }
-  setBirthdayYear(text){
-    let update = Object.assign({}, this.state, {year: text})
-    this.setState(update)
-  }
+
   setBio(text){
     let update = Object.assign({}, this.state, {bio: text})
     this.setState(update)
   }
+  
   setHometown(text){
     let update = Object.assign({}, this.state, {hometown: text})
     this.setState(update)
   }
 
-  submit(firstName, lastName, month, day, year, hometown, bio) {
+  submit(firstName, lastName, hometown, bio) {
     fetch(`${DOMAIN}/profileUpdate`, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
+        username: this.state.username,
         firstName: firstName,
         lastName: lastName,
-        month: month,
-        day: day,
-        year: year,
         hometown: hometown,
         bio: bio
       })
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      /* do something with responseJson and go back to the Login view but
-       * make sure to check for responseJson.success! */
-       if(responseJson.success){
-           // return this.props.navigation.goBack();
-           return this.props.navigation.navigate('UserFeed');
-
-       }else{
-           alert(responseJson.error)
-           console.log('THERE WAS AN ERROR', responseJson.error);
+       if(responseJson.success) {
+          return this.props.navigation.navigate('Profile');
+       } else {
+          alert(responseJson.error)
+          console.log(`There was an error updating the user's account\n${responseJson.error}`);
        }
     })
     .catch((err) => {
-        console.log('caught error in catch of submt');
+        console.log(`caught error in catch of user update`);
         alert(err)
-      /* do something if there was an error with fetching */
     });
   }
 
@@ -254,33 +241,6 @@ export default class profileScreen extends React.Component {
             onChangeText={(text) => this.setLastName(text)}
         ></TextInput>
 
-        <View style={{flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', width: Dimensions.get('window').width}}>
-          <TextInput
-              value={this.state.month}
-              placeholder='MM'
-              keyboardType = 'numeric'
-              style={styles.inputField4}
-              maxLength={2}
-              onChangeText={(text) => this.setBirthdayMonth(text)}
-          ></TextInput>
-          <TextInput
-              value={this.state.day}
-              placeholder='DD'
-              keyboardType = 'numeric'
-              style={styles.inputField4}
-              maxLength={2}
-              onChangeText={(text) => this.setBirthdayDay(text)}
-          ></TextInput>
-          <TextInput
-              value={this.state.year}
-              placeholder='YYYY'
-              keyboardType = 'numeric'
-              style={styles.inputField4}
-              maxLength={4}
-              onChangeText={(text) => this.setBirthdayYear(text)}
-          ></TextInput>
-        </View>
-
         <TextInput
             placeholder='Hometown'
             value={this.state.hometown}
@@ -289,7 +249,7 @@ export default class profileScreen extends React.Component {
         ></TextInput>
 
         <TextInput
-            placeholder='Write something about yourself'
+            placeholder='Write a description about yourself'
             value={this.state.bio}
             multiline={true}
             numberOfLines={10}
@@ -298,8 +258,8 @@ export default class profileScreen extends React.Component {
             onChangeText={(text) => this.setBio(text)}
         ></TextInput>
 
-        <TouchableOpacity style={[styles.button, styles.buttonLightBlue]} onPress={ () => {this.submit(this.state.firstName, this.state.lastName, this.state.month, this.state.day, this.state.year, this.state.hometown, this.state.bio)}}>
-          <Text style={styles.buttonLabel}>Submit</Text>
+        <TouchableOpacity style={[styles.button, styles.buttonLightBlue]} onPress={ () => {this.submit(this.state.firstName, this.state.lastName, this.state.hometown, this.state.bio)}}>
+          <Text style={styles.buttonLabel}>Save</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
       </ScrollView>

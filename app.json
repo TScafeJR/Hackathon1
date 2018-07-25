@@ -1,17 +1,18 @@
 {
   "expo": {
     "name": "Runner",
-    "description": "Mobile app for finding running partners",
+    "description": "Mobile app for finding workout partners",
     "slug": "Runner",
     "privacy": "public",
     "sdkVersion": "22.0.0",
     "version": "1.0.0",
     "orientation": "portrait",
     "primaryColor": "#F5FCFF",
-    "icon": "./assets/icons/app.png",
-    "loading": {
-      "icon": "./assets/icons/loading.png",
-      "hideExponentText": false
+    "icon": "./assets/icons/tiny-star-512.png",
+    "splash": {
+      "image": "./assets/runner.gif",
+      "resizeMode": "contain",
+      "backgroundColor": "#FFFFFF"
     },
     "packagerOpts": {
       "assetExts": ["ttf", "mp4"]
