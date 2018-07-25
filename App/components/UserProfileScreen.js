@@ -30,6 +30,7 @@ export default class UserProfile extends React.Component{
       lastName: '',
       hometown: '',
       bio: '',
+      homeState: '',
       isDateTimePickerVisible: false,
     }
   }
@@ -55,11 +56,19 @@ export default class UserProfile extends React.Component{
             .then((responseJson) => {
                if(responseJson.success){
                  var user = responseJson.user
+
+                 function toTitleCase(str) {
+                  return str.replace(/\w\S*/g, function(txt){
+                      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                  });
+                } 
+
                   this.setState({
                     firstName: user.firstName,
                     lastName: user.lastName,
                     username: user.username,
                     hometown: user.hometown,
+                    homeState: toTitleCase(user.homeState),
                     bio: user.bio
                   })
                } else {
@@ -108,7 +117,7 @@ export default class UserProfile extends React.Component{
             <CardItem bordered>
             <Body style={{flexDirection: "row", justifyContent: "center"}}>
               <Text>
-                {this.state.hometown}
+                {this.state.hometown}, {this.state.homeState}
               </Text>
             </Body>
           </CardItem>

@@ -33,6 +33,10 @@ var userSchema = mongoose.Schema({
   bio: {
     type: String,
     required: false
+  },
+  homeState: {
+    type: String,
+    required: false
   }
 });
 
