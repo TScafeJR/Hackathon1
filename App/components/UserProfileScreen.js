@@ -106,7 +106,7 @@ export default class UserProfile extends React.Component{
               </Left>
             </CardItem>
             <CardItem bordered>
-            <Body>
+            <Body style={{flexDirection: "row", justifyContent: "center"}}>
               <Text>
                 {this.state.hometown}
               </Text>

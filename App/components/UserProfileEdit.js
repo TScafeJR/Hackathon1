@@ -3,7 +3,7 @@ import { Dimensions, Image, View, TextInput, ScrollView, TouchableOpacity, Keybo
 import { ImagePicker, LinearGradient } from 'expo';
 import styles from '../styles.js';
 import DOMAIN from '../../env.js';
-import { Header, Label, Button, Right, Left, Icon, Body, Title } from 'native-base';
+import { Header, Label, Button, Right, Left, Icon, Body, Title, Container, Content, Form, Item, Input} from 'native-base';
 
 export default class profileEditScreen extends React.Component {
   constructor(props) {
@@ -196,6 +196,7 @@ export default class profileEditScreen extends React.Component {
 
   render() {
     return (
+      
       <LinearGradient colors={['#43C6AC', '#F8FFAE']} style={{height: Dimensions.get('window').height}}>
       <Header style={{backgroundColor: 'transparent'}}>
         <Left>
@@ -212,6 +213,8 @@ export default class profileEditScreen extends React.Component {
       <ScrollView>
       <KeyboardAvoidingView behavior='padding' style={{ flex: 1, alignItems: 'center', justifyContent: 'space-between', paddingBottom: 40, paddingTop: 20}}>
         {this.state.image ? <Image source={{ uri: this.state.image }} style={{ width: 180, height: 180, borderRadius: 25 }} /> : null}
+        
+        {/*
         <View style={{flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent'}}>
           <TouchableOpacity onPress={this._pickImage} style={{marginRight: 10}}>
           <Image
@@ -226,37 +229,46 @@ export default class profileEditScreen extends React.Component {
           />
           </TouchableOpacity>
         </View>
+        
+                style={styles.inputField2}
+          */}
 
-        <TextInput
-            placeholder='First Name'
-            value={this.state.firstName}
-            style={styles.inputField2}
-            onChangeText={(text) => this.setFirstName(text)}
-        ></TextInput>
+        <Item floatingLabel>
+          <Label style={{color: 'black'}}>First Name</Label>
+          <Input
+              value={this.state.firstName}
+              onChangeText={(text) => this.setFirstName(text)}
+          ></Input>
+        </Item>
 
-        <TextInput
-            placeholder='Last Name'
+        <Item floatingLabel>
+          <Label style={{color: 'black'}}>Last Name</Label>
+        <Input
             value={this.state.lastName}
-            style={styles.inputField2}
             onChangeText={(text) => this.setLastName(text)}
-        ></TextInput>
+        ></Input>
+        </Item>
 
-        <TextInput
-            placeholder='Hometown'
+
+        <Item floatingLabel>
+        <Label style={{color: 'black'}}>Hometown</Label>
+        <Input
             value={this.state.hometown}
-            style={styles.inputField2}
             onChangeText={(text) => this.setHometown(text)}
-        ></TextInput>
+        ></Input>
+        </Item>
 
-        <TextInput
-            placeholder='Write a description about yourself'
-            value={this.state.bio}
-            multiline={true}
-            numberOfLines={10}
-            maxHeight={90}
-            style={styles.inputField3}
-            onChangeText={(text) => this.setBio(text)}
-        ></TextInput>
+        <Item floatingLabel>
+          <Label style={{color: 'black'}}>Bio</Label>
+          <Input
+              placeholder='Write a description about yourself'
+              value={this.state.bio}
+              multiline={true}
+              numberOfLines={10}
+              maxHeight={90}
+              onChangeText={(text) => this.setBio(text)}
+          ></Input>
+        </Item>
 
         <TouchableOpacity style={[styles.button, styles.buttonLightBlue]} onPress={ () => {this.submit(this.state.firstName, this.state.lastName, this.state.hometown, this.state.bio)}}>
           <Text style={styles.buttonLabel}>Save</Text>
