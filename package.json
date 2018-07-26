@@ -7,6 +7,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "dependencies": {
     "bcrypt": "^3.0.0",
+    "cloudinary": "^1.11.0",
     "compression": "^1.7.3",
     "connect-flash": "^0.1.1",
     "cookie-session": "^2.0.0-beta.3",

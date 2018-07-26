@@ -1,9 +1,10 @@
 import React from 'react';
 import { Dimensions, Image, View, TextInput, ScrollView, TouchableOpacity, KeyboardAvoidingView, AsyncStorage, Platform, StyleSheet, Alert} from 'react-native';
 import { ImagePicker, LinearGradient } from 'expo';
-import DOMAIN from '../../env.js';
+import { DOMAIN } from '../../env.js';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
 import LandingFooter from './LandingFooter.js';
+import FBLoginButton from './FBLoginButton.js'
 
 export default class LandingScreen extends React.Component {
     static navigationOptions = {
@@ -16,11 +17,16 @@ export default class LandingScreen extends React.Component {
         this.state = {
           currentPage: 'Landing'
         }
-      }
+    }
+
+    componentDidMount() {  
+    }
 
     render(){
         return (
-            <LandingFooter navigation={this.props.navigation}/>
+            <Container>
+                <LandingFooter navigation={this.props.navigation}/>
+            </Container>
         )
     }
-} 
+}

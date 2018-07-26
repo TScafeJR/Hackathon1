@@ -4,7 +4,7 @@ import { Header, Body, Title } from 'native-base';
 import { Constants } from 'expo';
 import { StackNavigator } from 'react-navigation';
 
-import DOMAIN from '../../env'
+import { DOMAIN } from '../../env'
 
 const { width } = Dimensions.get("window");
 

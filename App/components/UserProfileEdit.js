@@ -1,9 +1,10 @@
 import React from 'react';
 import { Dimensions, Image, View, TextInput, ScrollView, TouchableOpacity, KeyboardAvoidingView, Text, AsyncStorage, } from 'react-native';
 import { ImagePicker, LinearGradient } from 'expo';
+// import { RNS3 } from 'react-native-aws3';
 import styles from '../styles.js';
-import DOMAIN from '../../env.js';
-import { Header, Label, Button, Right, Left, Icon, Body, Title, Container, Content, Form, Item, Input, Picker} from 'native-base';
+import { DOMAIN } from '../../env.js';
+import { Header, Label, Button, Right, Left, Icon, Body, Title, Container, Content, Form, Item, Input, Picker, Thumbnail} from 'native-base';
 
 export default class profileEditScreen extends React.Component {
   constructor(props) {
@@ -15,6 +16,7 @@ export default class profileEditScreen extends React.Component {
       bio: '',
       hometown: '',
       homeState: '',
+      profileImageURL: 'https://res.cloudinary.com/tscafejr/image/upload/v1532455579/runner/app_images/basketball1.gif',
       isDateTimePickerVisible: false,
     }
   }
@@ -72,81 +74,81 @@ export default class profileEditScreen extends React.Component {
       })
   }
 
-  _pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-    });
+  // _pickImage = async () => {
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     allowsEditing: true,
+  //     aspect: [4, 3],
+  //   });
 
-    if (!result.cancelled) {
-      this.setState({ image: result.uri });
-      const file = {
-        // `uri` can also be a file system path (i.e. file://)
-        uri: result.uri,
-        name: this.state.id,
-        type: "image/png"
-      }
+  //   if (!result.cancelled) {
+  //     this.setState({ image: result.uri });
+  //     const file = {
+  //       // `uri` can also be a file system path (i.e. file://)
+  //       uri: result.uri,
+  //       name: this.state.id,
+  //       type: "image/png"
+  //     }
 
-      const options = {
-        keyPrefix: "uploads/",
-        bucket: "trouvaille",
-        region: "us-east-1",
-        accessKey: ACCESSKEY,
-        secretKey: SECRETKEY,
-        successActionStatus: 201
-      }
+  //     const options = {
+  //       keyPrefix: "uploads/user-profile",
+  //       bucket: "runner",
+  //       region: "us-east-1",
+  //       accessKey: ACCESSKEY,
+  //       secretKey: SECRETKEY,
+  //       successActionStatus: 201
+  //     }
 
-      RNS3.put(file, options).then(response => {
-        if (response.status !== 201)
-          throw new Error("Failed to upload image to S3");
-        fetch(`${DOMAIN}/photoUpdate`, {
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            profileURL: response.body.postResponse.location
-          })
-        })
-        .then((response) => {
-          return response.json();
-        })
-        .then((responseJson) => {
-          if(responseJson.success){
-            return this.props.navigation.navigate('Profile');
-          } else {
-            alert('Picture was not uploaded');
-            console.log('error in picture fail', responseJson.error);
-            this.setState({error: responseJson.error});
-          }
-        })
-        .catch((err) => {
-          console.log('caught error in catch of add picture', err);
-          alert(err)
-          /* do something if there was an error with fetching */
-        })
-        /**
-         * {
-         *   postResponse: {
-         *     bucket: "your-bucket",
-         *     etag : "9f620878e06d28774406017480a59fd4",
-         *     key: "uploads/image.png",
-         *     location: "https://your-bucket.s3.amazonaws.com/uploads%2Fimage.png"
-         *   }
-         * }
-         */
-      });
-    }
-  };
+  //     RNS3.put(file, options).then(response => {
+  //       if (response.status !== 201)
+  //         throw new Error("Failed to upload image to S3");
+  //       fetch(`${DOMAIN}/photoUpdate`, {
+  //         method: 'POST',
+  //         headers: {
+  //           "Content-Type": "application/json"
+  //         },
+  //         body: JSON.stringify({
+  //           profileURL: response.body.postResponse.location
+  //         })
+  //       })
+  //       .then((response) => {
+  //         return response.json();
+  //       })
+  //       .then((responseJson) => {
+  //         if(responseJson.success){
+  //           return this.props.navigation.navigate('Profile');
+  //         } else {
+  //           alert('Picture was not uploaded');
+  //           console.log('error in picture fail', responseJson.error);
+  //           this.setState({error: responseJson.error});
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log('caught error in catch of add picture', err);
+  //         alert(err)
+  //         /* do something if there was an error with fetching */
+  //       })
+  //       /**
+  //        * {
+  //        *   postResponse: {
+  //        *     bucket: "your-bucket",
+  //        *     etag : "9f620878e06d28774406017480a59fd4",
+  //        *     key: "uploads/image.png",
+  //        *     location: "https://your-bucket.s3.amazonaws.com/uploads%2Fimage.png"
+  //        *   }
+  //        * }
+  //        */
+  //     });
+  //   }
+  // };
 
 
   goBack() {
     this.props.navigation.navigate('Profile')
   }
 
-  addCar() {
-    this.props.navigation.navigate('addCar')
-  }
+  // addCar() {
+  //   this.props.navigation.navigate('addCar')
+  // }
 
   setFirstName(text){
     let update = Object.assign({}, this.state, {firstName: text})
@@ -205,6 +207,8 @@ export default class profileEditScreen extends React.Component {
 
 
   render() {
+    const image_uri = this.state.profileImageURL;
+
     return (
       
       <LinearGradient colors={['#43C6AC', '#F8FFAE']} style={{height: Dimensions.get('window').height}}>
@@ -242,6 +246,8 @@ export default class profileEditScreen extends React.Component {
         
                 style={styles.inputField2}
           */}
+
+        <Thumbnail large source={{uri: image_uri}} />
 
         <Item floatingLabel>
           <Label style={{color: 'black'}}>First Name</Label>

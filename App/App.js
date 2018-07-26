@@ -15,7 +15,7 @@ import RunnerMap from './components/RunnerMap.js'
 import UserProfileEditScreen from './components/UserProfileEdit.js'
 import UserProfileScreen from './components/UserProfileScreen.js'
 
-import DOMAIN from '../env.js'
+import { DOMAIN } from '../env.js'
 
 import styles from './styles.js'
 

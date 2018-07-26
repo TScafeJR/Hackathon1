@@ -12,6 +12,7 @@ const router = express.Router();
 var bodyParser = require('body-parser');
 var models = require('./models/models');
 var bcrypt = require('bcrypt');
+var cloudinary = require('cloudinary');
 
 var User = models.User
 
@@ -29,6 +30,12 @@ REQUIRED_ENV.forEach(function(el) {
 });
 
 var IS_DEV = app.get('env') === 'development';
+
+cloudinary.config({ 
+    cloud_name: process.env.CLOUD_NAME, 
+    api_key: process.env.CLOUDINARY_API_KEY, 
+    api_secret: process.env.CLOUDINARY_SECRET 
+});
 
 var passport = require('passport');
 app.use(passport.initialize());
@@ -89,6 +96,22 @@ var validateReq = function(userData) {
     }
 };
 
+app.get('/', (req, res) => {
+    res.json({success: true})
+})
+
+// app.post('/imageUpload', (req, res) => {
+//     cloudinary.uploader.upload(req.body.image_title, function(result) { 
+//         console.log(result)
+//         res.send({success: true, image_information: result})
+//     });
+// })
+
+// app.get('/imageLoaded/:image_title', (req, res) => {
+//     cloudinary.image(req.params.image_title, { alt: `${req.params.image_title}` })
+//     res.send({success: true})
+// })
+
 app.get('/register', (req, res) => {
     res.json({success: true})
 })
@@ -130,7 +153,7 @@ app.post('/register', (req, res, next) => {
 })
 
 app.get('/login', (req, res) => {
-    res.json({success: true})
+    res.status(200).json({success: true})
 });
 
 app.post('/login', passport.authenticate('local', {
@@ -139,7 +162,7 @@ app.post('/login', passport.authenticate('local', {
   }));
 
 app.get('/activity', (req, res) => {
-    res.json({success: true, user: req.user})
+    res.status(200).json({success: true, user: req.user})
 });
 
 app.post('/activity', (req, res) => {
@@ -186,14 +209,14 @@ app.get('/profile/:username', (req, res) => {
     .then((user)=>{
         if (user[0]){
             user[0].password = undefined;
-            res.json({success: true, user: user[0]})
+            res.status(200).json({success: true, user: user[0]})
         } else {
-            res.json({success: false});
+            res.status(400).json({success: false});
         }
     })
     .catch((error)=>{
         console.log('there was an error', error)
-        res.json({success: false});
+        res.status(400).json({success: false});
     })
 })
 
@@ -210,6 +233,10 @@ app.post('/profileUpdate', (req, res)=>{
             res.json({success: false, error: error});
         })
 })
+
+app.post('/fbupdate/:username', (req, res) => {
+    console.log(req.body);
+}) 
 
 app.get('/messages:userId', (req, res) => {
     User.findById(req.params.userId, function(err, user){

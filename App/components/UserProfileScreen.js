@@ -1,9 +1,10 @@
 import React from 'react';
 import { Dimensions, Image, View, TextInput, ScrollView, TouchableOpacity, KeyboardAvoidingView, AsyncStorage, Platform, StyleSheet, Alert} from 'react-native';
 import { ImagePicker, LinearGradient } from 'expo';
-import DOMAIN from '../../env.js';
+import { DOMAIN } from '../../env.js';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
 import LandingFooter from './LandingFooter.js'
+import FBLoginButton from './FBLoginButton.js'
 
 const { width } = Dimensions.get("window");
 
@@ -131,10 +132,15 @@ export default class UserProfile extends React.Component{
               </Text>
             </Body>
           </CardItem>
-          <CardItem footer bordered>
+          <CardItem bordered>
           <TouchableOpacity onPress={() => this.goToEditAccount()}>
-            <Text>Edit Account</Text>
+            <Text style={{color: 'blue'}}>Edit Account</Text>
             </TouchableOpacity>
+          </CardItem>
+          <CardItem footer bordered>
+            <Body style={{flexDirection: "row", justifyContent: "center"}}>
+              <FBLoginButton />
+            </Body>
           </CardItem>
         </Card>
       </Content>
@@ -143,3 +149,19 @@ export default class UserProfile extends React.Component{
       );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  label23: {
+    paddingTop: 100,
+    fontSize: 16,
+    fontWeight: 'normal',
+    marginBottom: 48,
+  },
+});
