@@ -32,8 +32,8 @@ In order to run this application, a few steps are necessary:
 
     Currently the ```env.js``` file has the following variables that are necessary:
     * ```DOMAIN```: serves as an endpoint to handle the internal App requests
-        * If you are running on a local machine ```http http://localhost:3000``` works
-        * If you set to some other remote endpoint like heroku you should use ```http http://example-app.herokuapp.com```
+        * If you are running on a local machine ```http://localhost:3000``` works
+        * If you set to some other remote endpoint like heroku you should use ```http://example-app.herokuapp.com```
 
     Your file should look similar to this
     ```javascript
@@ -41,10 +41,10 @@ In order to run this application, a few steps are necessary:
 
     export default DOMAIN = `${your http endpoint}`
     ```
-3. Run ```sh npm install``` in the root directory to download javascript dependencies for your server
-4. Run ```sh source env.sh``` in the root directory to connect your environment variables to your application
-5. Run ```sh npm install``` in the ```'/App'``` directory in order to download the React Native dependencies for the mobile application.
+3. Run ```npm install``` in the root directory to download javascript dependencies for your server
+4. Run ```source env.sh``` in the root directory to connect your environment variables to your application
+5. Run ```npm install``` in the ```'/App'``` directory in order to download the React Native dependencies for the mobile application.
 6. Start your server:
-    * If you are running the server on your local machine you can run the command ```sh npm start``` in the root directory to start the server
+    * If you are running the server on your local machine you can run the command ```npm start``` in the root directory to start the server
     * If you are running the application using a remote server, you can go on to step 7
 7. Your setup is complete. You can open the App in Expo or some other XDE
