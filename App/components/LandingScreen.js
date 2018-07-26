@@ -11,6 +11,13 @@ export default class LandingScreen extends React.Component {
         header: null
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+          currentPage: 'Landing'
+        }
+      }
+
     render(){
         return (
             <LandingFooter navigation={this.props.navigation}/>

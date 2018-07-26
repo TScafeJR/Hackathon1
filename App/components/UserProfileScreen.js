@@ -32,8 +32,7 @@ export default class UserProfile extends React.Component{
       bio: '',
       homeState: '',
       isDateTimePickerVisible: false,
-      goToProfile: props.goToProfile,
-      goToDiscover: props.goToDiscover
+      currentPage: 'Profile'
     }
   }
 
@@ -42,7 +41,7 @@ export default class UserProfile extends React.Component{
     header: null
   };
 
-  componentDidMount() {
+  componentDidMount() {    
     AsyncStorage.getItem('user')
       .then(result => {
         if (result) {
@@ -118,7 +117,7 @@ export default class UserProfile extends React.Component{
                 </Body>
               </Left>
             </CardItem>
-            <CardItem bordered>
+            <CardItem>
             <Body style={{flexDirection: "row", justifyContent: "center"}}>
               <Text>
                 {this.state.hometown}, {this.state.homeState}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Animated, View, Dimensions, TextInput, TouchableOpacity, StyleSheet, AsyncStorage, ListView, Alert, ScrollView, Image, Slider, Platform } from 'react-native';
-import { Container, Header, Content, Footer, FooterTab, Button, Icon, Text } from 'native-base';
+import { Container, Header, Content, Footer, FooterTab, Button, Icon, Text, Thumbnail } from 'native-base';
 import { Constants } from 'expo';
 
 export default class LandingFooter extends React.Component {
@@ -9,12 +9,29 @@ export default class LandingFooter extends React.Component {
       header: null
     }
 
+    constructor(props) {
+      super(props);
+      this.state = {
+      }
+    }
+
     goToProfile(){
+      this.setState({currentPage: 'Profile'})
       this.props.navigation.navigate('Profile')
     }
 
     goToDiscover(){
+      this.setState({currentPage: 'ChooseActivity'})
       this.props.navigation.navigate('ChooseActivity')
+    }
+
+    goToHome(){
+      this.setState({currentPage: 'Landing'})
+      this.props.navigation.navigate('Landing')
+    }
+
+    componentDidMount(){
+
     }
 
     render(){
@@ -24,17 +41,14 @@ export default class LandingFooter extends React.Component {
           <Content />
           <Footer>
             <FooterTab>
-              <Button vertical>
-              <Icon name="home"/>
-              <Text>Home</Text>
+              <Button active={this.props.navigation.state.routeName === 'Landing'} vertical onPress={() => this.goToHome()}>
+              <Icon active={this.props.navigation.state.routeName === 'Landing'} style={{fontSize: 36}} name="home"/>
               </Button>
-              <Button vertical onPress={() => this.goToDiscover()}>
-                <Icon name="navigate" />
-                <Text>Discover</Text>
+              <Button active={this.props.navigation.state.routeName === 'Discover'} vertical onPress={() => this.goToDiscover()}>
+                <Icon active={this.props.navigation.state.routeName === 'Discover'} style={{fontSize: 36}} name="navigate" />
               </Button>
-              <Button vertical onPress={() => this.goToProfile()}>
-                <Icon name="person" />
-                <Text>Profile</Text>
+              <Button active={this.props.navigation.state.routeName === 'Profile'} vertical onPress={() => this.goToProfile()}>
+              <Thumbnail small source={{ uri: 'https://res.cloudinary.com/tscafejr/image/upload/v1532455579/runner/app_images/basketball1.gif' }} />
               </Button>
             </FooterTab>
           </Footer>
