@@ -1,7 +1,7 @@
 # Runner
-- [Introduction](https://github.com/Mschw90/Trouvaille.io#introduction)
-- [About Our Application](https://github.com/Mschw90/Trouvaille.io#about-our-application)
-- [Framework/Architecture](https://github.com/Mschw90/Trouvaille.io#frameworkarchitecture)
+- [Introduction](https://github.com/TScafeJR/Runner/tree/tyrone#introduction)
+- [About Our Application](https://github.com/TScafeJR/Runner/tree/tyrone#about-our-application)
+- [Framework/Architecture](https://github.com/TScafeJR/Runner/tree/tyrone#frameworkarchitecture)
 
 ## Introduction
 Runner is a multi-platform health-oriented mobile application for use in the USA.
