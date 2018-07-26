@@ -1,7 +1,7 @@
 # Runner
 - [Introduction](https://github.com/TScafeJR/Runner/tree/tyrone#introduction)
 - [About Our Application](https://github.com/TScafeJR/Runner/tree/tyrone#about-our-application)
-- [Framework/Architecture](https://github.com/TScafeJR/Runner/tree/tyrone#frameworkarchitecture)
+- [Framework / Architecture](https://github.com/TScafeJR/Runner/tree/tyrone#frameworkarchitecture)
 - [How To Run](https://github.com/TScafeJR/Runner/tree/tyrone#how-to-run)
 
 ## Introduction
@@ -13,7 +13,7 @@ in their area. Users can filter for workout partners based on other users' locat
 ## About Our Application
 Our team built this platform using [React Native](https://facebook.github.io/react-native/). Although this application supports deployment in Andriod and iOS environments, it was rarely tested in any Android enviornments. Beyond this, the primary testing enviornments were for iPhones 6S, 6S Plus, 7, 7S, 8 and X. All of these phones ran iOS 11.4 software and above.
 
-## Framework/Architecture
+## Framework / Architecture
 This application uses a React Native framework on the front-end to enable rendering. It uses a NodeJS express server on the back-end to support route handling and various requests. Lastly, it uses a combination of MongoDB and PostgreSQL to manage database exchanges.
 
 ## How To Run
