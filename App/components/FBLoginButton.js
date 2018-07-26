@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View,  Alert } from 'react-native';
 import { Button, Icon, Text } from 'native-base';
 import { LoginButton } from 'react-native-fbsdk';
 import { Facebook } from 'expo';
@@ -7,7 +7,7 @@ const FBSDK = require('react-native-fbsdk');
 const {
   LoginManager,
 } = FBSDK;
-import { FB_TOKEN } from '../../env.js'
+import { DOMAIN, FB_TOKEN } from '../../env.js'
 
 export default class FBLoginButton extends React.Component {
     handleFacebookLogin = async () => {
@@ -38,7 +38,7 @@ export default class FBLoginButton extends React.Component {
             default: {
             Alert.alert(
                 'Oops!',
-                'Login failed!',
+                'Login failed, wrong password!',
             );
             }
         }
