@@ -231,11 +231,21 @@ app.post('/profileUpdate', (req, res)=>{
         .catch((error)=>{
             console.log('there was an error', error)
             res.json({success: false, error: error});
-        })
+    })
 })
 
 app.post('/fbupdate/:username', (req, res) => {
-    console.log(req.body);
+    User.update(
+        {username: req.params.username},
+        {fbName: req.body.facebookName, fbId: req.body.facebookID},
+        { upsert: true })
+        .then((response) =>{
+            res.json({success: true, message: req.body});
+        })
+        .catch((error)=>{
+            console.log('there was an error', error)
+            res.json({success: false, error: error});
+    })
 }) 
 
 app.get('/messages:userId', (req, res) => {

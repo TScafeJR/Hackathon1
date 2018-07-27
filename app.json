@@ -4,7 +4,7 @@
     "description": "Mobile app for finding workout partners",
     "slug": "Runner",
     "privacy": "public",
-    "sdkVersion": "22.0.0",
+    "sdkVersion": "27.0.0",
     "version": "1.0.0",
     "orientation": "portrait",
     "primaryColor": "#F5FCFF",

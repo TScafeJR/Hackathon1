@@ -64,13 +64,14 @@ export default class UserProfile extends React.Component{
                       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
                   });
                 } 
+                  var homeState = user.homeState ? toTitleCase(user.homeState) : ''; 
 
                   this.setState({
                     firstName: user.firstName,
                     lastName: user.lastName,
                     username: user.username,
                     hometown: user.hometown,
-                    homeState: toTitleCase(user.homeState),
+                    homeState: `, ${homeState}`,
                     bio: user.bio
                   })
                } else {
@@ -79,6 +80,7 @@ export default class UserProfile extends React.Component{
                }
               })    
             .catch((err) => {
+                console.log(err)
                 console.log("Something else went wrong trying to retrieve the user's information");
                 return this.props.navigation.navigate('Login');
                 alert(err)
@@ -121,7 +123,7 @@ export default class UserProfile extends React.Component{
             <CardItem>
             <Body style={{flexDirection: "row", justifyContent: "center"}}>
               <Text>
-                {this.state.hometown}, {this.state.homeState}
+                {this.state.hometown}{this.state.homeState}
               </Text>
             </Body>
           </CardItem>

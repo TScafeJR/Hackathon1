@@ -4,9 +4,7 @@ var mongoose = require('mongoose');
 mongoose.Promise = Promise;
 var findOrCreate = require('mongoose-findorcreate');
 
-mongoose.connect(process.env.MONGODB_URI, {
-  useMongoClient: true
-});
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
 
 var userSchema = mongoose.Schema({
   username: {
@@ -35,6 +33,14 @@ var userSchema = mongoose.Schema({
     required: false
   },
   homeState: {
+    type: String,
+    required: false
+  },
+  fbName: {
+    type: String,
+    required: false
+  },
+  fbId: {
     type: String,
     required: false
   }

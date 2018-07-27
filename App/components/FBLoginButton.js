@@ -1,15 +1,35 @@
 import React from 'react';
-import { View,  Alert } from 'react-native';
+import { View,  Alert, AsyncStorage } from 'react-native';
 import { Button, Icon, Text } from 'native-base';
-import { LoginButton } from 'react-native-fbsdk';
 import { Facebook } from 'expo';
-const FBSDK = require('react-native-fbsdk');
-const {
-  LoginManager,
-} = FBSDK;
 import { DOMAIN, FB_TOKEN } from '../../env.js'
 
 export default class FBLoginButton extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: ''
+        }
+    }
+
+    componentDidMount() {  
+        AsyncStorage.getItem('user')
+        .then(result => {
+            if (result) {
+                var parsedResult = JSON.parse(result);
+                if (parsedResult.username) {
+                    var lowerUsername = parsedResult.username.toLowerCase()
+                    this.setState({
+                    username: lowerUsername
+                    })
+                }
+            }
+        })
+        .catch((error) => {
+            console.log(`There was an error retrieving the user's information:\n${error}`)
+        })
+    }
+
     handleFacebookLogin = async () => {
         try {
         const { type, token } = await Facebook.logInWithReadPermissionsAsync(
@@ -43,10 +63,10 @@ export default class FBLoginButton extends React.Component {
             }
         }
         } catch (e) {
-        Alert.alert(
-            'Oops!',
-            'Login failed!',
-        );
+            Alert.alert(
+                'Oops!',
+                'Login failed!',
+            );
         }
     }
 
@@ -62,7 +82,7 @@ export default class FBLoginButton extends React.Component {
               // Get the user's name using Facebook's Graph API
               const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
               const profile = await response.json();
-                await fetch(`${DOMAIN}/fbupdate/${this.state.username}}`, {
+                await fetch(`${DOMAIN}/fbupdate/${this.state.username}`, {
                   method: 'POST',
                   headers: {
                     "Content-Type": "application/json"
@@ -73,15 +93,15 @@ export default class FBLoginButton extends React.Component {
                   })
                 })
                 .then((response) => {
+                    Alert.alert(
+                        'Logged in!',
+                        `Hi ${profile.name}!`,
+                    );
                   return response.json();
                 })
                 .catch(function(error){
                     console.log(`There was an error\n${error}`)
                 })
-                Alert.alert(
-                    'Logged in!',
-                    `Hi ${profile.name}!`,
-                  );
                   break;
              }
              case 'cancel': {
@@ -99,6 +119,7 @@ export default class FBLoginButton extends React.Component {
               }
             }
             } catch (e) {
+                console.log(`there was an error logging in:\n${e}`)
                 Alert.alert(
                     `Oops!`,
                     `Facebook login failed! Try again`

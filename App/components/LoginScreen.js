@@ -75,6 +75,7 @@ export default class LoginScreen extends React.Component {
             username: username,
             password: password
             }))
+            console.log('item set')
             return this.props.navigation.navigate('Landing');
         } else {
             alert('Login failed');

@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "runner",
-    "description": "runner is a m obile app for finding running partners",
-    "slug": "runner",
+    "name": "hackathon1",
+    "description": "An empty new project",
+    "slug": "hackathon1",
     "privacy": "public",
     "sdkVersion": "27.0.0",
     "version": "1.0.0",
