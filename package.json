@@ -34,11 +34,11 @@
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TScafeJR/Hackathon1.git"
+    "url": "git+https://github.com/TScafeJR/runner.git"
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TScafeJR/Hackathon1/issues"
+    "url": "https://github.com/TScafeJR/runner/issues"
   },
-  "homepage": "https://github.com/TScafeJR/Hackathon1#readme"
+  "homepage": "https://github.com/TScafeJR/runner#readme"
 }
